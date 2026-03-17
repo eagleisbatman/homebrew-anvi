@@ -2,17 +2,30 @@ class Anvi < Formula
   desc "Terminal-native AI coding agent built in Rust"
   homepage "https://github.com/eagleisbatman/anvi"
   license "Apache-2.0"
-  head "https://github.com/eagleisbatman/anvi.git", branch: "main"
+  version "1.0.0"
 
-  # Stable release - update these URLs and checksums when cutting a release
-  # url "https://github.com/eagleisbatman/anvi/archive/refs/tags/v1.0.0.tar.gz"
-  # sha256 "UPDATE_WITH_ACTUAL_SHA256"
-  # version "1.0.0"
+  on_macos do
+    if Hardware::CPU.arm?
+      url "https://github.com/eagleisbatman/anvi-releases/releases/latest/download/anvi-aarch64-apple-darwin.tar.gz"
+      # sha256 "UPDATE_AFTER_FIRST_RELEASE"
+    else
+      url "https://github.com/eagleisbatman/anvi-releases/releases/latest/download/anvi-x86_64-apple-darwin.tar.gz"
+      # sha256 "UPDATE_AFTER_FIRST_RELEASE"
+    end
+  end
 
-  depends_on "rust" => :build
+  on_linux do
+    if Hardware::CPU.arm?
+      url "https://github.com/eagleisbatman/anvi-releases/releases/latest/download/anvi-aarch64-unknown-linux-gnu.tar.gz"
+      # sha256 "UPDATE_AFTER_FIRST_RELEASE"
+    else
+      url "https://github.com/eagleisbatman/anvi-releases/releases/latest/download/anvi-x86_64-unknown-linux-gnu.tar.gz"
+      # sha256 "UPDATE_AFTER_FIRST_RELEASE"
+    end
+  end
 
   def install
-    system "cargo", "install", *std_cargo_args(path: "crates/anvi-tui")
+    bin.install "anvi"
   end
 
   test do
